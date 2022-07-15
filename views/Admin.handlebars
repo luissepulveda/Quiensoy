@@ -1,0 +1,55 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+  </head>
+  <body>
+    <h1>Skate Park</h1>
+
+    <div class="py-4">
+      <h2>Administración</h2>
+      <hr class="w-50" />
+
+      <table class="table w-50 m-auto">
+        <thead>
+          <tr>
+            <th scope="col">#</th>
+            <th scope="col">Foto</th>
+            <th scope="col">Nombre</th>
+            <th scope="col">Años de experiencia</th>
+            <th scope="col">Especialidad</th>
+            <th scope="col">Estado</th>
+          </tr>
+        </thead>
+        <tbody>
+          {{#each usuarios}}
+          <tr>
+            <td>{{@index}}</td>
+            <td><img src="{{this.foto}}" width="50" height="60"></td>
+            <td>{{this.nombre}}</td>
+            <td>{{this.anos_experiencia}}</td>
+            <td>{{this.especialidad}}</td>
+            <td><input type="checkbox" {{#if this.estado}} checked {{/if}} onclick="cambiarEstado({{this.id}})" id="estado"></td>
+          </tr>
+          {{/each}}
+        </tbody>
+      </table>
+    </div>
+  </body>
+  <script>
+    const cambiarEstado = async function(id){
+      const estado = document.getElementById("estado").checked
+      try{
+      const modificar = await axios.put("/Admin", {id, estado})
+      alert("Estado Cambiado!!")
+      }catch({response}){
+        const { data } = response
+        const { error } = data
+        alert(error)
+      }
+    }
+  </script>
+</html>
